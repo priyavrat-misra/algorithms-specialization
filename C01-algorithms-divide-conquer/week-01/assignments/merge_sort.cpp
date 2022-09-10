@@ -41,12 +41,15 @@ void msort(int* a, int n) {
 
 int main() {
 	int n;
+	cout << "Enter size of the array: ";
 	if (cin >> n && n > 0) {
 		int *a = new int[n];
+		cout << "Enter the elements: ";
 		for (int i = 0; i < n; ++i)
 			cin >> a[i];
 		
 		msort(a, n);
+		cout << "The elements in sorted order:";
 		for (int i = 0; i < n; ++i)
 			cout << " " << a[i];
 		
