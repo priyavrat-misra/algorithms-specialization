@@ -10,9 +10,8 @@ int* slice(int* a, int start, int end) {
 	return s;
 }
 
-unsigned mergeNcount(int* a, int* left, int* right, int ls, int rs) {
+void mergeNcount(int* a, int* left, int* right, int ls, int rs, unsigned& c) {
 	int i = 0, j = 0;
-	unsigned c = 0;
 	while (i < ls && j < rs) {
 		if (left[i] > right[j])
 			a[i+j] = right[j], ++j, c += (ls - i);
@@ -28,23 +27,19 @@ unsigned mergeNcount(int* a, int* left, int* right, int ls, int rs) {
 
 	delete[] left;
 	delete[] right;
-	
-	return c;
 }
 
-unsigned divideNsort(int* a, int n) {
+void divideNsort(int* a, int n, unsigned& c) {
 	if (n == 1)
-		return 0;
+		return;
 
-	unsigned c = 0;
 	int mid = n / 2;
 	int* left = slice(a, 0, mid);
 	int* right = slice(a, mid, n);
 	
-	c += divideNsort(left, mid);
-	c += divideNsort(right, n - mid);
-	c += mergeNcount(a, left, right, mid, n - mid);
-	return c;
+	divideNsort(left, mid, c);
+	divideNsort(right, n - mid, c);
+	mergeNcount(a, left, right, mid, n - mid, c);
 }
 
 int main() {
@@ -56,7 +51,9 @@ int main() {
 		for (int i = 0; i < n; ++i)
 			cin >> a[i];
 
-		cout << "Number of inversions: " << divideNsort(a, n) << endl;
+		unsigned c = 0;
+		divideNsort(a, n, c);
+		cout << "Number of inversions: " << c << endl;
 		delete[] a;
 	} else {
 		cerr << "Size must be positive." << std::endl;
