@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 using namespace std;
 
 void delete2d(int** a, int n) {
@@ -22,8 +23,9 @@ void swap(int* a, int* b) {
 }
 
 void qsort(int** points, int n, bool sort_y) {
-	// quick sort with 1st element as pivot
 	if (n > 1) {
+		// randomly chooses a pivot element
+		swap(points[rand() % n], points[0]);
 		int i = 0, j = 1;
 		while (j < n) {
 			if (points[0][sort_y] < points[j][sort_y]) {
@@ -34,7 +36,7 @@ void qsort(int** points, int n, bool sort_y) {
 				++j;
 			}
 		}
-		swap(points[0], points[i]);
+		swap(points[i], points[0]);
 
 		qsort(points, i, sort_y);
 		qsort(points + i + 1, n - i - 1, sort_y);
@@ -109,6 +111,7 @@ int main() {
 			cin >> points[i][0] >> points[i][1];
 		}
 
+		srand(clock()); // sets seed for random no generation
 		// sort the points wrt x co-ordinates inplace
 		qsort(points, n, false);
 
