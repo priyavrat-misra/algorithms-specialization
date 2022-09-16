@@ -12,13 +12,9 @@ using namespace std;
 class Graph {
 	private:
 		int num_nodes;
-		vector<int> nodes;
 		vector<vector<int>> adj_matrix;
 	public:
-		Graph(int n) : num_nodes(n), adj_matrix(n, vector<int>(n, 0)), nodes(n) {
-			for (int i = 0; i < num_nodes; ++i)
-				nodes[i] = i;
-		}
+		Graph(int n) : num_nodes(n), adj_matrix(n, vector<int>(n, 0)) {}
 
 		void setNeighbors(int& node, string& neighbors) {
 			istringstream ss(neighbors);
@@ -43,28 +39,20 @@ class Graph {
 		int kargersAlgo() {
 			removeSelfLoops();
 			for (int i = num_nodes; i > 2; --i) {
-				int n = nodes.size();
 				int u, v;
 				do {
-					u = nodes[rand() % n];
-					v = nodes[rand() % n];
-				} while (u == -1 || v == -1 || !adj_matrix[u][v]);
+					u = rand() % num_nodes;
+					v = rand() % num_nodes;
+				} while (!adj_matrix[u][v]);
 				mergeNodes(u, v);
-				nodes[u] = -1;
 				removeSelfLoops();
 			}
+			for (int i = 0; i < num_nodes - 1; ++i)
+				for (int j = i + 1; j < num_nodes; ++j)
+					if (adj_matrix[i][j])
+						return adj_matrix[i][j];
 
-			int i = 0;
-			while (i < num_nodes && nodes[i] == -1)
-				++i;
-			int u = nodes[i];
-
-			++i;
-			while (i < num_nodes && nodes[i] == -1)
-				++i;
-			int v = nodes[i];
-
-			return adj_matrix[u][v];
+			return 0;
 		}
 };
 
@@ -85,15 +73,15 @@ int main() {
 		}
 
 		int runs = n * n * log2(n);
-		int min_cuts = INT_MAX;
+		int min_cut = INT_MAX;
 		for (int i = 0; i < runs; ++i) {
 			srand(clock());
 			//if (!(i % 1000))
-			//	cout << i << " / " << runs << ": " << min_cuts << endl; 
+			//	cout << i << " / " << runs << ": " << min_cut << endl; 
 			Graph tgraph = graph;
-			min_cuts = min(min_cuts, tgraph.kargersAlgo());
+			min_cut = min(min_cut, tgraph.kargersAlgo());
 		}
-		cout << min_cuts << endl;
+		cout << min_cut << endl;
 	} else {
 		cerr << "Invalid number of vertices." << endl;
 	}
