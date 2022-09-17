@@ -2,7 +2,6 @@
 #include <sstream>
 #include <vector>
 #include <string>
-#include <unordered_set>
 #include <algorithm>
 #include <cmath>
 #include <climits>
@@ -47,8 +46,8 @@ class Graph {
 				mergeNodes(u, v);
 				removeSelfLoops();
 			}
-			for (int i = 0; i < num_nodes - 1; ++i)
-				for (int j = i + 1; j < num_nodes; ++j)
+			for (int i = 1; i < num_nodes; ++i)
+				for (int j = 0; j < i; ++j)
 					if (adj_matrix[i][j])
 						return adj_matrix[i][j];
 
