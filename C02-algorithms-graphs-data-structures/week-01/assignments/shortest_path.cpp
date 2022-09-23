@@ -6,9 +6,8 @@ using namespace std;
 
 class Node {
 public:
-	int node_no, parent = -1, distance = -1;
+	int parent = -1, distance = -1;
 	vector<int> neighbors;
-	Node(int n) : node_no(n) {}
 };
 
 class Graph {
@@ -43,7 +42,7 @@ private:
 public:
 	Graph(int num_nodes) {
 		for (int node_no = 0; node_no < num_nodes; ++node_no)
-			adj_list[node_no] = new Node(node_no);
+			adj_list[node_no] = new Node;
 	}
 
 	void addEdge(int u, int v, bool undir = true) {

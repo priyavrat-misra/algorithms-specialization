@@ -5,10 +5,9 @@ using namespace std;
 
 class Node {
 public:
-	int node_no, label;
+	int label;
 	bool is_visited = false;
 	vector<int> neighbors;
-	Node(int& n) : node_no(n) {}
 };
 
 class Graph {
@@ -19,7 +18,7 @@ private:
 public:
 	Graph(int n) : curr_label(n), num_nodes(n), labels(n) {
 		for (int node_no = 0; node_no < num_nodes; ++node_no)
-			adj_list[node_no] = new Node(node_no);
+			adj_list[node_no] = new Node;
 	}
 
 	void addEdge(int u, int v) {
