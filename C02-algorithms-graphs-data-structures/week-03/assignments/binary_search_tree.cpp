@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <vector>
 using namespace std;
 
 struct Node {
@@ -10,8 +11,78 @@ struct Node {
 };
 
 class BST {
+public:
+	BST() {}
+	BST(vector<int> values) {
+		for (int& val : values)
+			insertNode(val);
+	}
+
+	void insertNode(int val) {
+		if (!root)
+			this -> root = new Node(val);
+		else
+			push(val, this -> root);
+	}
+
+	void deleteNode(int val) {
+		this -> root = pop(val, this -> root);
+	}
+
+	bool search(int val) {
+		return find(val, this -> root);
+	}
+
+	int min() {
+		if (!root)
+			return -1;
+		return findMin(root) -> val;
+	}
+
+	int max() {
+		if (!root)
+			return -1;
+		return findMax(root) -> val;
+	}
+
+	int successor(int val) {
+		Node* s = getSuccessor(find(val, this -> root));
+		if (s)
+			return s -> val;
+		else
+			return -1;
+	}
+
+	int predecessor(int val) {
+		Node* p = getPredecessor(find(val, this -> root));
+		if (p)
+			return p -> val;
+		else
+			return -1;
+	}
+
+	void print() {
+		if (!root)
+			return;
+
+		cout << "Pre-Order\t:";
+		preOrder(this -> root);
+		cout << endl << "In-Order\t:";
+		inOrder(this -> root);
+		cout << endl << "Post-Order\t:";
+		postOrder(this -> root);
+		cout << endl << "Level-Order\t:";
+		levelOrder();
+		cout << endl;
+	}
+
+	~BST() {
+		if (root)
+			deleteBST(root);
+	}
 private:
 	Node* root = nullptr;
+
 	Node* push(int& val, Node* root) {
 		if (!root)
 			return new Node(val);
@@ -166,75 +237,6 @@ private:
 			deleteBST(root -> right);
 			delete root;
 		}
-	}
-public:
-	BST() {}
-	BST(vector<int> values) {
-		for (int& val : values)
-			insertNode(val);
-	}
-
-	void insertNode(int val) {
-		if (!root)
-			this -> root = new Node(val);
-		else
-			push(val, this -> root);
-	}
-
-	void deleteNode(int val) {
-		this -> root = pop(val, this -> root);
-	}
-
-	bool search(int val) {
-		return find(val, this -> root);
-	}
-
-	int min() {
-		if (!root)
-			return -1;
-		return findMin(root) -> val;
-	}
-
-	int max() {
-		if (!root)
-			return -1;
-		return findMax(root) -> val;
-	}
-
-	int successor(int val) {
-		Node* s = getSuccessor(find(val, this -> root));
-		if (s)
-			return s -> val;
-		else
-			return -1;
-	}
-
-	int predecessor(int val) {
-		Node* p = getPredecessor(find(val, this -> root));
-		if (p)
-			return p -> val;
-		else
-			return -1;
-	}
-
-	void print() {
-		if (!root)
-			return;
-
-		cout << "Pre-Order\t:";
-		preOrder(this -> root);
-		cout << endl << "In-Order\t:";
-		inOrder(this -> root);
-		cout << endl << "Post-Order\t:";
-		postOrder(this -> root);
-		cout << endl << "Level-Order\t:";
-		levelOrder();
-		cout << endl;
-	}
-
-	~BST() {
-		if (root)
-			deleteBST(root);
 	}
 };
 

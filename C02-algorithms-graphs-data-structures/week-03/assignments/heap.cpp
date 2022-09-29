@@ -55,7 +55,7 @@ public:
 	void pop() {
 		swap(btree[1], btree[size]);
 		--size;
-		//btree.pop_back();
+		btree.pop_back();
 		int parent = 1;
 		int lchild = 2;
 		int rchild = 3;
