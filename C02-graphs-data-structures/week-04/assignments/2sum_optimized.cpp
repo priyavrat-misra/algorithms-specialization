@@ -7,6 +7,7 @@ using namespace std;
 int main() {
 	int n;
 	cin >> n;
+	
 	long long e;
 	set<long long> s;
 	while (n--)

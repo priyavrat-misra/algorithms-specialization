@@ -5,7 +5,6 @@ using namespace std;
 
 class Node {
 public:
-	int label;
 	bool is_visited = false;
 	vector<int> neighbors;
 };

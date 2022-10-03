@@ -32,7 +32,6 @@ private:
 		for (int node = 1; node <= num_nodes; ++node)
 			if (!adj_list[node] -> is_visited)
 				dfs(node);
-
 	}
 
 	void dfsSCC(int& source, int& n) {
