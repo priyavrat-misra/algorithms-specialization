@@ -13,9 +13,9 @@ int main() {
 
 	int ans = 0;
 	for (int target = -10000; target <= 10000; ++target) {
-		for (auto& x : s) {
+		for (const long long& x : s) {
 			long long y = target - x;
-			if (s.count(y) && y != x) {
+			if (s.count(y) && x != y) {
 				++ans;
 				break;
 			}

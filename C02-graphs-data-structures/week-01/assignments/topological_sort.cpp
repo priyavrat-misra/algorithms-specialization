@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 using namespace std;
 
 class Node {
@@ -13,11 +12,11 @@ class Graph {
 private:
 	int curr_label, num_nodes;
 	vector<int> labels;
-	unordered_map<int, Node*> adj_list;
+	vector<Node*> adj_list;
 public:
 	Graph(int n) : curr_label(n), num_nodes(n), labels(n) {
-		for (int node_no = 0; node_no < num_nodes; ++node_no)
-			adj_list[node_no] = new Node;
+		while (n--)
+			adj_list.push_back(new Node);
 	}
 
 	void addEdge(int u, int v) {
@@ -46,8 +45,8 @@ public:
 	}
 
 	~Graph() {
-		for (pair<const int, Node*> row : adj_list)
-			delete row.second;
+		for (Node*& node : adj_list)
+			delete node;
 	}
 };
 

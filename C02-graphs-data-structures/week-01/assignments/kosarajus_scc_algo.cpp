@@ -2,7 +2,6 @@
 #include <iostream>
 #include <queue>
 #include <vector>
-#include <unordered_map>
 using namespace std;
 
 class Node {
@@ -17,7 +16,7 @@ private:
 	int num_nodes, curr_rank;
 	vector<int> topo_order;
 	priority_queue<int, vector<int>, greater<int>> top5_scc;
-	unordered_map<int, Node*> adj_list;
+	vector<Node*> adj_list;
 
 	void dfs(int& source) {
 		adj_list[source] -> is_visited = true;
@@ -29,7 +28,7 @@ private:
 	}
 
 	void topoSort() {
-		for (int node = 1; node <= num_nodes; ++node)
+		for (int node = 0; node < num_nodes; ++node)
 			if (!adj_list[node] -> is_visited)
 				dfs(node);
 	}
@@ -43,8 +42,8 @@ private:
 	}
 public:
 	Graph(int n) : num_nodes(n), curr_rank(n), topo_order(n) {
-		for (int node = 1; node <= num_nodes; ++node)
-			adj_list[node] = new Node;
+		while (n--)
+			adj_list.push_back(new Node);
 	}
 
 	void addEdge(int u, int v) {
@@ -68,8 +67,8 @@ public:
 	}
 
 	~Graph() {
-		for (pair<const int, Node*>& row : adj_list)
-			delete row.second;
+		for (Node*& node : adj_list)
+			delete node;
 	}
 };
 
@@ -80,7 +79,7 @@ int main() {
 	while (e--) {
 		int u, v;
 		cin >> u >> v;
-		g.addEdge(u, v);
+		g.addEdge(u - 1, v - 1);
 	}
 
 	g.kosarajuAlgo();

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <unordered_map>
 #include <limits>
 #include <string>
 #include <sstream>
@@ -17,11 +16,11 @@ public:
 
 class Graph {
 private:
-	unordered_map<int, Node*> adj_list;
+	vector<Node*> adj_list;
 public:
 	Graph(int n) {
-		for (int i = 1; i <= n; ++i)
-			adj_list[i] = new Node;
+		while (n--)
+			adj_list.push_back(new Node);
 	}
 
 	void addEdge(int& u, int& v, int& wgt) {
@@ -33,10 +32,10 @@ public:
 			return;
 
 		printPath(adj_list[destination] -> parent);
-		cout << " -> " << destination;
+		cout << " -> " << destination + 1;
 	}
 
-	void getShortestPath(int& destination) {
+	void getShortestPath(int destination) {
 		cout << "Shortest Path:";
 		printPath(destination);
 		cout << endl << "Distance: " << adj_list[destination] -> dist << endl;
@@ -63,8 +62,8 @@ public:
 	}
 
 	~Graph() {
-		for (pair<const int, Node*>& row : adj_list)
-			delete row.second;
+		for (Node*& node : adj_list)
+			delete node;
 	}
 };
 
@@ -77,17 +76,17 @@ int main() {
 		istringstream ss(line);
 		string node;
 		getline(ss, node, ' ');
-		int u = stoi(node);
+		int u = stoi(node) - 1;
 		while (getline(ss, node, ' ')) {
-			int v = stoi(node);
+			int v = stoi(node) - 1;
 			int comma = node.find(',');
 			int wgt = stoi(node.substr(comma + 1, node.size() - comma));
 			g.addEdge(u, v, wgt);
 		}
 	}
 
-	g.dijkstra(1);
+	g.dijkstra(0);
 	int nodes[] = {7, 37, 59, 82, 99, 115, 133, 165, 188, 197};
 	for (int& node : nodes)
-		g.getShortestPath(node);
+		g.getShortestPath(node - 1);
 }
